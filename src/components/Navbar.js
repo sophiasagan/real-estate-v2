@@ -72,7 +72,7 @@ const NavBtn = styled.div`
   }
 `;
 
-const Navbar = () => {
+const Navbar = ({toggle}) => {
   return (
     <Nav>
       <Logo to="/">Golden Realty Team</Logo>

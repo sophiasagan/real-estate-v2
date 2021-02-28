@@ -26,7 +26,7 @@ const SliderButtons = styled.div`
   bottom: 50px;
   right: 50px;
   display: flex;
-  z-index: 999;
+  z-index: 10;
   display: ${({ isOpen }) => (isOpen ? "none" : "block")};
 `;
 
@@ -136,7 +136,7 @@ const Hero = ({ slides, isOpen }) => {
       setCurrent((current) => (current === length - 1 ? 0 : current + 1));
     };
     timeout.current = setTimeout(nextSlide, 3500);
-    
+
     return function () {
       if (timeout.current) {
         clearTimeout(timeout.current);

@@ -10,6 +10,7 @@ import { SliderData } from "./data/SliderData";
 import GlobalStyle from "./globalStyles";
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import ListingsSection from "./components/Listings";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +39,7 @@ function App() {
       <Dropdown isOpen={isOpen} toggle={toggle} reset={reset} />
       <Hero slides={SliderData} />
       <InfoSection {...InfoData} />
+      <ListingsSection slides={SliderData} />
       <InfoSection {...InfoDataTwo} />
       <Footer />
     </>

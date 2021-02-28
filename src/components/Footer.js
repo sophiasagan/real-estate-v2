@@ -129,25 +129,29 @@ const Footer = () => {
 
       <SocialMedia>
         <div>
-          <a href={"https://youtube.com"}>
+          <a href={"https://youtube.com"} rel='noopener noreferrer'
+              target='_blank'>
             <FaYoutube />
           </a>
         </div>
 
         <div>
-          <a href={"https://instagram.com"}>
+          <a href={"https://instagram.com"} rel='noopener noreferrer'
+              target='_blank'>
             <FaInstagram />
           </a>
         </div>
 
         <div>
-          <a href={"https://facebook.com"}>
+          <a href={"https://facebook.com"} rel='noopener noreferrer'
+              target='_blank'>
             <FaFacebookF />
           </a>
         </div>
 
         <div>
-          <a href={"https://linkedin.com"}>
+          <a href={"https://linkedin.com"} rel='noopener noreferrer'
+              target='_blank'>
             <FaLinkedin />
           </a>
         </div>

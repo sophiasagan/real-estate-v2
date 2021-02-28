@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components/macro";
 import { Button } from "./Button";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import { IoArrowForward, IoArrowBack } from "react-icons/io5";
+import { motion, AnimatePresence } from "framer-motion";
 
 const HeroSection = styled.section`
   height: 100vh;
@@ -131,25 +132,17 @@ const Hero = ({ slides, isOpen }) => {
   const length = slides.length;
   const timeout = useRef(null);
 
-  useEffect(() => {
-    const nextSlide = () => {
-      setCurrent((current) => (current === length - 1 ? 0 : current + 1));
-    };
-    timeout.current = setTimeout(nextSlide, 3500);
-
-    return function () {
-      if (timeout.current) {
-        clearTimeout(timeout.current);
-      }
-    };
+  const nextSlide = useCallback(() => {
+    setCurrent(current === length - 1 ? 0 : current + 1);
   }, [current, length]);
 
-  const nextSlide = () => {
-    if (timeout.current) {
-      clearInterval(timeout.current);
-    }
-    setCurrent(current === length - 1 ? 0 : current + 1);
-  };
+  useEffect(() => {
+    timeout.current = setTimeout(nextSlide, 5000);
+    return () => {
+      clearTimeout(timeout.current);
+    };
+  }, [current, length, nextSlide]);
+
   const prevSlide = () => {
     if (timeout.current) {
       clearInterval(timeout.current);
@@ -161,37 +154,63 @@ const Hero = ({ slides, isOpen }) => {
     return null;
   }
 
+  const fadeAnimation = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 1 } },
+    exit: { opacity: 0 },
+  };
+
   return (
     <HeroSection>
-      <HeroWrapper>
-        {slides.map((slide, index) => (
-          <HeroSlide key={index}>
-            {index === current && (
-              <HeroSlider>
-                <HeroImage src={slides[current].image} alt={slide.alt} />
-                <HeroContent>
-                  <h1>{slide.title}</h1>
-                  <p>{slide.price}</p>
-                  <Button
-                    to={slide.path}
-                    primary="true"
-                    css={`
-                      max-width: 160px;
-                    `}
-                  >
-                    {slide.label}
-                    <Arrow />
-                  </Button>
-                </HeroContent>
-              </HeroSlider>
-            )}
-          </HeroSlide>
-        ))}
-        <SliderButtons isOpen={isOpen}>
-          <PrevArrow onClick={prevSlide} />
-          <NextArrow onClick={nextSlide} />
-        </SliderButtons>
-      </HeroWrapper>
+      <AnimatePresence>
+        <HeroWrapper>
+          {slides.map((slide, index) => (
+            <motion.div
+              key={index}
+              initial="hidden"
+              animate="visible"
+              variants={fadeAnimation}
+            >
+              <HeroSlide>
+                {index === current && (
+                  <HeroSlider>
+                    <HeroImage src={slides[current].image} alt={slide.alt} />
+                    <HeroContent>
+                      <h1 data-aos="fade-down" data-aos-duration="1000">
+                        {slide.title}
+                      </h1>
+                      <p
+                        data-aos="fade-down"
+                        data-aos-duration="1000"
+                        data-aos-delay="200"
+                      >
+                        {slide.price}
+                      </p>
+                      <Button
+                        to={slide.path}
+                        primary="true"
+                        data-aos="zoom-out"
+                        data-aos-duration="1000"
+                        data-aos-delay="400"
+                        css={`
+                          max-width: 160px;
+                        `}
+                      >
+                        {slide.label}
+                        <Arrow />
+                      </Button>
+                    </HeroContent>
+                  </HeroSlider>
+                )}
+              </HeroSlide>
+            </motion.div>
+          ))}
+          <SliderButtons isOpen={isOpen}>
+            <PrevArrow onClick={prevSlide} />
+            <NextArrow onClick={nextSlide} />
+          </SliderButtons>
+        </HeroWrapper>
+      </AnimatePresence>
     </HeroSection>
   );
 };

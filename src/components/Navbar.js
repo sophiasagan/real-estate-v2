@@ -60,6 +60,7 @@ const NavMenu = styled.div`
 
 const NavMenuLinks = styled(Link)`
   ${NavLink}
+  text-decoration: none;
 `;
 
 const NavBtn = styled.div`
@@ -76,7 +77,7 @@ const Navbar = ({toggle}) => {
   return (
     <Nav>
       <Logo to="/">Golden Realty Team</Logo>
-      <MenuBars />
+      <MenuBars onClick={toggle} />
       <NavMenu>
         {menuData.map((item, index) => (
           <NavMenuLinks to={item.link} key={index}>
